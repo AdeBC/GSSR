@@ -1,0 +1,13 @@
+
+*.iml
+*.xml
+.ipynb_checkpoints/main-checkpoint.py
+.ipynb_checkpoints/preprocessing-checkpoint.html
+.ipynb_checkpoints/preprocessing-checkpoint.ipynb
+.ipynb_checkpoints/README-checkpoint.md
+.ipynb_checkpoints/utils-checkpoint.ipynb
+Data_files/features&labels/.ipynb_checkpoints/testing_set-checkpoint.csv
+Data_files/features&labels/.ipynb_checkpoints/training_set-checkpoint.csv
+Source/.ipynb_checkpoints/preprocessing-checkpoint.ipynb
+Source/.ipynb_checkpoints/Untitled-checkpoint.ipynb
+Source/.ipynb_checkpoints/utils-checkpoint.ipynb
