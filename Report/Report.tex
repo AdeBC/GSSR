@@ -1,0 +1,1317 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    \usepackage{subcaption}
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    % \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+%    \DeclareCaptionFormat{nocaption}{}
+%    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    \usepackage{threeparttable}
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},fontsize=\small}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{A Computing Data Science Perspective on Gene Splice Site Identification}
+    \author{Hui Chong}
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+
+    \hypertarget{abstract}{%
+\section{Abstract}\label{abstract}}
+
+As molecular biology and information technology advances, machine
+learning techniques have a wide range of applications in bioinformatics.
+In this work, on the problem of gene splicing donor site identification,
+on both balanced dataset and unbalanced dataset, three models (WAM
+{[}1{]}, BN {[}2,3{]}, SVM {[}4,5{]}) are evaluated comprehensively. A
+set of comprehensive performance metrics were also introduced in the
+experiments. And to detect splice signals precisely, a correction has
+also made to Bayesian network. The result shows that SVM has a good
+ability on take caring of unbalanced data while WAM and BN do not.
+Besides, the fitness of metrics is also tested. It shows that \(auPRC\)
+{[}6{]} is more sensitive to unbalanced data and so is more applicable
+in many situations.
+
+    \hypertarget{brief-introduction}{%
+\section{Brief Introduction}\label{brief-introduction}}
+
+As molecular biology has an insight into gene regulation and RNA
+splicing, recognition of RNA splice site became a key problem. In the
+recent 2 decades, several methods have been proposed to solve the
+problem. But their ability of take care of unbalanced data have not been
+tested yet. In this work, a test of WAM, BN, SVM on both balanced data
+and unbalanced data were performed.
+
+    \hypertarget{splice-site}{%
+\subsection{Splice Site}\label{splice-site}}
+
+Splice site {[}7{]} , in molecular biology, is a position on RNA where
+RNA splicing occurs. RNA splicing is a form of RNA processing in which a
+newly made precursor messenger RNA (pre-mRNA) transcript is transformed
+into a mature messenger RNA (mRNA). After splicing, introns (Non-coding
+regions) are removed and exons (Coding Regions) are joined together.
+
+There are donor sites (5' end) and acceptor sites (3' end) within
+introns {[}28{]}.
+
+    \hypertarget{models}{%
+\subsection{Models}\label{models}}
+
+As Biology advances, computational methods are now the only realistic
+way to answer many questions in modern biology {[}29{]}. For the problem
+of splice site recognition, there are several models have been peoposed.
+
+\textbf{Weighted Array Model} {[}1{]} is a frequency-based approach. It
+calculate the frequency of each adjacent bases in specific positions to
+fill into a weight array matrix, and use weight matrix to score unknown
+site. It has the ability to detect some signals like common bases amoung
+donors. The limitation of this approach, in a machine learning
+perspective, is its poor ability to automatically calculate hidden
+features, like GC content. There might be much more complex features
+that contribute to splice signal transduction.
+
+\textbf{Bayesian Network} {[}2,3{]} is a Bayesian method. It learns DAG
+structure and conditional probabilities distribution from the data. It
+has the ability to take care of dependence between positions. It also
+has the ability to imputate the missing value of the data. and besides,
+it can work like a Bayesian classifier when there is conditional
+probability from features to label of each sample. The limitation of
+this approach, is its unprecise and ineffective structure learning
+algorithm. PC-Constraints based learning algorithm forms loops in DAG
+and causes errors sometimes. MMHC algorithm is too slow when there is
+hundreds or thousands of nodes. Structrual expectation maximization is
+quite good, but still needs prior expert knowledges.
+
+\textbf{Support Vector Machine} {[}4,5{]} is a mature supervised
+learning method. It employs support vectors to maximize the margin and
+kernel trick to classify linearly indivisible data. This allows for
+significant savings in calculations. But detecting signals via SVM is
+not a good choice, because over three-dimensional hyper-plane within SVM
+cannot be visualized and analyzed. This is the flaw of SVM in data
+mining, it has the ability to classify but is almost useless for human
+interpretation of results.
+
+    \hypertarget{material-and-method}{%
+\section{Material and Methods}\label{material-and-method}}
+
+    \hypertarget{environment}{%
+\subsection{Environment}\label{environment}}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{k+kn}{import} \PY{n+nn}{pickle}
+\PY{k+kn}{import} \PY{n+nn}{warnings}
+\PY{k+kn}{import} \PY{n+nn}{importlib}
+\PY{k+kn}{import} \PY{n+nn}{import\PYZus{}ipynb}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{import} \PY{n+nn}{networkx} \PY{k}{as} \PY{n+nn}{nx}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{image} \PY{k}{as} \PY{n+nn}{pli}
+\PY{k+kn}{from} \PY{n+nn}{Models} \PY{k+kn}{import} \PY{n}{WAM}\PY{p}{,} \PY{n}{BN}\PY{p}{,} \PY{n}{SVM}
+\PY{k+kn}{from} \PY{n+nn}{Evaluator} \PY{k+kn}{import} \PY{n}{Evaluator}
+\PY{k+kn}{from} \PY{n+nn}{matplotlib} \PY{k+kn}{import} \PY{n}{pyplot} \PY{k}{as} \PY{n}{plt}
+\PY{k+kn}{from} \PY{n+nn}{Utils} \PY{k+kn}{import} \PY{n}{load\PYZus{}data}\PY{p}{,} \PY{n}{Summary}\PY{p}{,} \PY{n}{Validation\PYZus{}Sum}\PY{p}{,} \PY{n}{no\PYZus{}box}
+\PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k+kn}{import} \PY{n}{display}\PY{p}{,} \PY{n}{Markdown}\PY{p}{,} \PY{n}{Latex}\PY{p}{,} \PY{n}{HTML}
+\PY{k+kn}{from} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{patches} \PY{k+kn}{import} \PY{n}{ConnectionPatch}
+\PY{k+kn}{from} \PY{n+nn}{mpl\PYZus{}toolkits}\PY{n+nn}{.}\PY{n+nn}{axes\PYZus{}grid1}\PY{n+nn}{.}\PY{n+nn}{inset\PYZus{}locator} \PY{k+kn}{import} \PY{n}{mark\PYZus{}inset}
+\PY{k+kn}{from} \PY{n+nn}{mpl\PYZus{}toolkits}\PY{n+nn}{.}\PY{n+nn}{axes\PYZus{}grid1}\PY{n+nn}{.}\PY{n+nn}{inset\PYZus{}locator} \PY{k+kn}{import} \PY{n}{inset\PYZus{}axes}
+\PY{k+kn}{from} \PY{n+nn}{pgmpy}\PY{n+nn}{.}\PY{n+nn}{estimators} \PY{k+kn}{import} \PY{n}{MmhcEstimator}\PY{p}{,} \PY{n}{ConstraintBasedEstimator}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{ion}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{style}\PY{o}{.}\PY{n}{use}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{science}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ieee}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{no\PYZhy{}latex}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ignore}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+importing Jupyter notebook from Utils.ipynb
+    \end{Verbatim}
+
+    \hypertarget{data-sets}{%
+\subsection{Datasets}\label{data-sets}}
+
+To comprehensively compare their performances, two datasets were used
+as data are usually unbalanced in Biology. Models may perform
+differently in that way. The first dataset, which is balanced, was used
+to training and testing models' performance in a general way. And the
+second dataset is an unbalanced dataset, was used to training and thus
+testing their performance like real conditions. Because unbalanced data
+is common in Biology and even many other fields.
+
+Basic information of the two datasets is as follows.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{training\PYZus{}set}\PY{p}{,} \PY{n}{testing\PYZus{}set} \PY{o}{=} \PY{n}{load\PYZus{}data}\PY{p}{(}\PY{p}{)}
+\PY{n}{training\PYZus{}set1} \PY{o}{=} \PY{n}{training\PYZus{}set}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{5000}\PY{p}{]}
+\PY{n}{testing\PYZus{}set1} \PY{o}{=} \PY{n}{testing\PYZus{}set}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{5000}\PY{p}{]}
+\PY{n}{training\PYZus{}set2} \PY{o}{=} \PY{n}{training\PYZus{}set}\PY{p}{[}\PY{l+m+mi}{1500}\PY{p}{:}\PY{l+m+mi}{6500}\PY{p}{]}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{testing\PYZus{}set2} \PY{o}{=} \PY{n}{testing\PYZus{}set}\PY{p}{[}\PY{l+m+mi}{1500}\PY{p}{:}\PY{l+m+mi}{6500}\PY{p}{]}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{Summary}\PY{p}{(}\PY{n}{training\PYZus{}set1}\PY{p}{,} \PY{n}{testing\PYZus{}set1}\PY{p}{,} \PY{n}{training\PYZus{}set2}\PY{p}{,} \PY{n}{testing\PYZus{}set2}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}latex}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+\begin{table*}[h] %\label{table:number}
+\centering
+\caption{Basic information of datasets} 
+\begin{threeparttable}
+\begin{tabular}{cccl}
+	\toprule
+	{} &  nSample$^a$ & nDonor : nPseudo$^b$ &        Type \\
+	\midrule
+	Dataset 1 &    10000 &      5278 : 4722 &    Balanced \\
+	Dataset 2 &    10000 &      2278 : 7722 &  Unbalanced \\
+	\bottomrule
+\end{tabular}
+ \begin{tablenotes}
+	\footnotesize
+	\item[a] Number of samples in the dataset.
+	\item[b] Proportion of donor sites and pseudo sites in the dataset.
+	%\item[c] Type of the dataset.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}
+
+
+
+
+    \hypertarget{feature-extraction-and-encoding}{%
+\subsection{Feature Extraction and
+Encoding}\label{feature-extraction-and-encoding}}
+
+To build reliable models and test their performances, high-quanlity data
+must be extracted. Splice site dataset, which contains \(5278\) donor
+sites and \(4722\) pseudo sites, was extracted from original sequence
+data. And only \(10\) bases before and after the site to be tested were
+extracted.
+
+When encoding sequence features, one-hot encoder {[}8{]} was introduced.
+And considering simplisity of the experiments, samples with
+\(base_{ambiguous} \in \{W,M,S,K,R,Y,B,D,H,V,N,Z\}\) {[}9{]} were
+discarded. Next, a One-hot encoder are used to encode sequence to a
+numeric feature vector. For instance, sequence \(A...T\) was encoded as
+\([1,0,0,0...0,0,0,1]\). See
+\href{https://github.com/AdeBC/GSSR/blob/master/Source/Preprocessing.ipynb}{Preprocessing.ipynb}
+for details.
+
+    \hypertarget{model-implements-and-test-core}{%
+\subsection{Model Implements and Test
+core}\label{model-implements-and-test-core}}
+
+The 3 models are mainly implemented using Python {[}10{]}. Besides, the
+Bayesian network model and Support vector machine was implemented based
+on Pgmpy and Scikit-learn packages {[}11,12{]}. As far as possible,
+these models have been designed to be practically applicable. They
+contain several very easy-to-use program interfaces: \texttt{fit},
+\texttt{predict\_probas}, \texttt{predict\_scores} and
+\texttt{predict\_classes}. For all 3 models, the \texttt{fit} method is
+used for training, and the other 3 \texttt{predict} methods are used for
+prediction. The \texttt{predict\_probas} is used for predicting the
+probabilities each sample belonging to each class, the
+\texttt{predict\_scores} are used for calculating the \(S(X)\), and the
+\texttt{predict\_classes} are used for predicting the class to which
+each sample belongs, this is done by comparing the \(S(X)\) and given
+threshold \(T\). Most importantly, the \(S(X)\) is calculated by:
+\[S_m(X) = ln(\frac{P_m^+ (X)}{P_m^- {X}}), m\in\{wam, bn, svm\} \tag{1}\]
+
+    \hypertarget{stratagies-for-wam-to-perform-recognition}{%
+\subsection{Stratagies for WAM to perform
+recognition}\label{stratagies-for-wam-to-perform-recognition}}
+
+When recoginizing Gene splice site, the 3 steps were mainly used to
+determine the potential of each sample being a splice site. Firstly,
+Laplace pseudocount \(C_p\) {[}13{]} are used to smooth categorical
+data. Secondly, the weights of positive and negative submodels, which
+are the frequencies of adjacent base pairs in WAM, are calculated using
+the following formula.
+\[f(x) = \frac{C_{x,p}+C_p}{N},x \in \{aa,ac,ag,...tt\} \tag{2} \] Where
+\(N\) is the total number of samples. \(C_{x,p}\) is the total number of
+specific adjacent base pairs occurring at position \(p-l+1...p\) in all
+samples. \(C_p\) is the pseudocount, and \(l\) is the length of array
+considered, which refers to the range of dependence between adjacent
+base pairs considered in experiments. And finally, the potential of
+unknown samples being donor sites were given by
+\[S_{wam}(X) = ln(\frac{P^+(X)}{P^-(X)}) = \sum_{x=2}^{L}{ln(\frac{f^+(x)}{f^-(x)})} \tag{3}\]
+Where \(L\) is the length of input sequence. Most importantly, \(l\) and
+\(C_p\) are set to \(2\) and \(0.5\) respectively.
+
+    \hypertarget{stratagies-for-bn-to-learn-structures-and-parameters-from-data}{%
+\subsection{Stratagies for BN to learn structures and parameters from
+data}\label{stratagies-for-bn-to-learn-structures-and-parameters-from-data}}
+
+To perform accurate structure and parameter learning for Bayesian
+network, Two algorithms were used: PC constraint-based learning
+algorithm {[}14{]} for structure learning and Bayesian estimation for
+parameters learning.
+
+The PC algorithm learns the DAG structure in three steps {[}30{]}.
+First, find the graph skeleton and separating sets of removed edges.
+Second, orient v-structures based on separating sets. Finally, propagate
+orientations of v-structures to as many remaining undirected edges as
+possible. The Bayesian estimator then estimates conditional probability
+distribution for each node in the graph.
+
+    \hypertarget{strategies-for-bn-to-detect-splice-signal}{%
+\subsection{Strategies for BN to detect splice
+signal}\label{strategies-for-bn-to-detect-splice-signal}}
+
+Because of Bayesian inference, Bayesian network can handle the causalty
+between nodes. In this project, Bayesian network have been improved to
+be able to calculate the splicing donor potential of DNA sequences. In
+which both two kinds of data are retained: the feature nodes
+\(N_{f}, f\in \{-10,-9,...10\}\) and label node \(N_L\). In the Bayesian
+network, each feature node has \(state_f \in \{a,c,g,t\}\) and label
+node has \(state_L\in \{0,1\}\). To enable Bayesian network to learn
+conditional probability for all nodes
+\(N \in \{N_{-10},N_{-9},...N_{10},N_{L}\}\), both donor sites and
+pseudo sites are fitted in a Bayesian network. Finally, when predicting
+new sites, the Bayesian network will treat new sites as sample with
+missing label. It uses a missing data imputation algorithm to calculate
+the probability of label in each state, which then gives the donor
+potential. See
+\href{https://github.com/AdeBC/GSSR/blob/master/Source/Models.ipynb}{Models.ipynb}
+for implements and 2.3 test score for donor potential calculation.
+
+    \hypertarget{correction}{%
+\subsection{Correction}\label{correction}}
+
+Since Bayesian networks cannot perfectly infer causality between \(N_f\)
+and \(N_L\), correction to directions of edges was performed. After
+construting a DAG structure, the edges from \(N_L\) to
+\(N_f, f \in \{−10,−9,...10\}\) are reversed (see
+\href{https://github.com/AdeBC/GSSR/blob/master/Source/Models.ipynb}{Models.ipynb}).
+For example, the edge \(N_L \rightarrow N_{-1}\) are reversed into
+\(N_L \leftarrow N_{-1}\).
+
+    \hypertarget{settings-for-svm-to-classify-splice-sites}{%
+\subsection{Settings for SVM to classify splice
+sites}\label{settings-for-svm-to-classify-splice-sites}}
+
+In the experiment, Gaussian Kernel function {[}15{]} were used to map
+vectors to higher-dimensional feature space. The \(\gamma\) for Gaussian
+Kernel are set to \$ 1/(Num\_\{features\}Variance\_\{data\})\$. All
+other parameters are default values (Scikit-learn version 0.23.1). See
+details in
+\href{https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html\#sklearn.svm.SVC}{Sklearn
+documentation}.
+\[\tag{4}K(x_i, x_j) = exp(-\gamma||x_i - x_j||^2), \gamma > 0\]
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{k}{class} \PY{n+nc}{Model}\PY{p}{:}
+    
+    \PY{k}{def} \PY{n+nf+fm}{\PYZus{}\PYZus{}init\PYZus{}\PYZus{}}\PY{p}{(}\PY{n+nb+bp}{self}\PY{p}{)}\PY{p}{:}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{wam} \PY{o}{=} \PY{n}{WAM}\PY{p}{(}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{bn} \PY{o}{=} \PY{n}{BN}\PY{p}{(}\PY{n}{struc\PYZus{}estr}\PY{o}{=}\PY{n}{ConstraintBasedEstimator}\PY{p}{)}
+        \PY{n+nb+bp}{self}\PY{o}{.}\PY{n}{svm} \PY{o}{=} \PY{n}{SVM}\PY{p}{(}\PY{n}{kernel}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rbf}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{gamma}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{scale}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{probability}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{verbose}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+        
+\PY{n}{model\PYZus{}1} \PY{o}{=} \PY{n}{Model}\PY{p}{(}\PY{p}{)}
+\PY{n}{model\PYZus{}2} \PY{o}{=} \PY{n}{Model}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{cross-validation}{%
+\subsection{Cross-validation}\label{cross-validation}}
+
+To test the accuracy of three models, a simple cross-validation {[}16{]}
+was performed. In both two experiments, independent and identically
+distributed testing set with was selected.
+
+    \hypertarget{evaluation}{%
+\subsection{Evaluation}\label{evaluation}}
+
+To visualize and compare classification results of 3 models, ROC curves
+{[}17{]} and PR curves {[}18{]} are plotted using Matplotlib package
+{[}26,27{]}. To realize this, a sample-based evaluation method is
+introduced:
+
+    \[ TP_t = \sum_{i=0}^N I(S_i\geq t \land L_i = 1) \tag{5} \]
+
+\[ FP_t = \sum_{i=0}^N I(S_i\geq t \land L_i = 0) \tag{6}  \]
+
+\[ TN_t = \sum_{i=0}^N I(S_i< t \land L_i = 0) \tag{7}  \]
+
+\[ FN_t = \sum_{i=0}^N I(S_i< t \land L_i = 1) \tag{8}  \]
+
+where \(TP_t\), \(FP_t\), \(TP_t\), \(TN_t\) are statistics for models'
+prediction result in specific threshold \(t\). \(I(True) = 0\) and
+\(I(False) = 1\), \(L_i\) is label for \(ith\) sample. \(S_i\) is the
+score calculated based on probability for \(ith\) sample.
+\(t\in \{-25, -24.5, -24, ...24.5, 25\}\) is the threshold used in the
+evaluation.
+
+And following metrics were used in the evaluation.
+
+\[ TPR_t = \frac{TP_t}{TP_t+FN_t} \tag{9}  \]
+
+\[ FPR_t = \frac{FP_t}{FP_t+TN_t} \tag{10}  \]
+
+\[ Sn_t = \frac{TP_t}{TP_t+FN_t} \tag{11}  \]
+
+\[ Sp_t = \frac{TN_t}{TN_t+FP_t} \tag{12}  \]
+
+\[ Pr_t = \frac{TP_t}{TP_t+FP_t} \tag{13}  \]
+
+\[ Rc_t = \frac{TP_t}{TP_t+FN_t} \tag{14}  \]
+
+\[ F1-score_t = \frac{2Pr_t Rc_t}{Pr_t+Rc_t} \tag{15} \]
+
+    Finally, \(auROC\) (the area under ROC curve) {[}19{]} and \(auPRC\)
+(the area under Precision-Recall curve) {[}6,18{]} were calculated using
+Composite Trapezoidal rule {[}20{]}:
+
+\[ auROC = \sum_{i=1}^{N-1} \frac{(FPR_{i+1} - FPR_i)(TPR_i+TPR_{i+1})}{2} \tag{16} \]
+
+\[ auPRC = \sum_{i=1}^{N-1} \frac{(Rc_{i+1} - Rc_i)(Pr_i+Pr_{i+1})}{2} \tag{17} \]
+
+For implements, see
+\href{https://github.com/AdeBC/GSSR/blob/master/Source/Evaluator.ipynb}{Evaluator.ipynb}.
+
+    \hypertarget{result-and-discussion}{%
+\section{Results and Discussion}\label{results-and-discussion}}
+
+In this section we discuss the result of two experiments.
+
+    \hypertarget{model-training}{%
+\subsection{Model Training}\label{model-training}}
+
+Three models were trained here. WAM and BN were trained and tested using
+sequence features, and SVM was trained and tested using numerical
+features. The numerical features were encoded using one-hot encoder (see
+2.3 feature extraction).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{training\PYZus{}set1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seq. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{training\PYZus{}set1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IsDonor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{training\PYZus{}set2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seq. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{training\PYZus{}set2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IsDonor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{bn}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{seqs}\PY{o}{=}\PY{n}{training\PYZus{}set2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seq. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} 
+               \PY{n}{label}\PY{o}{=}\PY{n}{training\PYZus{}set2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IsDonor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}\PY{p}{,} \PY{n}{sign\PYZus{}level}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{)}
+\PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{bn}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{seqs}\PY{o}{=}\PY{n}{training\PYZus{}set1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seq. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} 
+               \PY{n}{label}\PY{o}{=}\PY{n}{training\PYZus{}set1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IsDonor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}\PY{p}{,} \PY{n}{sign\PYZus{}level}\PY{o}{=}\PY{l+m+mf}{0.01}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{to\PYZus{}format\PYZus{}arr} \PY{o}{=} \PY{k}{lambda} \PY{n}{data}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n+nb}{list}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{data}\PY{p}{]}\PY{p}{)}
+\PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{svm}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{to\PYZus{}format\PYZus{}arr}\PY{p}{(}\PY{n}{training\PYZus{}set1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Num. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} 
+                \PY{n}{training\PYZus{}set1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IsDonor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{svm}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{to\PYZus{}format\PYZus{}arr}\PY{p}{(}\PY{n}{training\PYZus{}set2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Num. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{,} 
+                \PY{n}{training\PYZus{}set2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IsDonor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{test-scores-calculation}{%
+\subsection{Test scores Calculation}\label{test-scores-calculation}}
+
+The test scores for models were calculated here.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{scores\PYZus{}wam\PYZus{}1} \PY{o}{=} \PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{predict\PYZus{}scores}\PY{p}{(}\PY{n}{testing\PYZus{}set1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seq. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n+nb}{str}\PY{o}{.}\PY{n}{upper}\PY{p}{)}\PY{p}{)}
+\PY{n}{scores\PYZus{}wam\PYZus{}2} \PY{o}{=} \PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{predict\PYZus{}scores}\PY{p}{(}\PY{n}{testing\PYZus{}set2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seq. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n+nb}{str}\PY{o}{.}\PY{n}{upper}\PY{p}{)}\PY{p}{)}
+\PY{n}{scores\PYZus{}bn\PYZus{}1} \PY{o}{=} \PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{bn}\PY{o}{.}\PY{n}{predict\PYZus{}scores}\PY{p}{(}\PY{n}{testing\PYZus{}set1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seq. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{scores\PYZus{}bn\PYZus{}2} \PY{o}{=} \PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{bn}\PY{o}{.}\PY{n}{predict\PYZus{}scores}\PY{p}{(}\PY{n}{testing\PYZus{}set2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Seq. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{to\PYZus{}format\PYZus{}arr} \PY{o}{=} \PY{k}{lambda} \PY{n}{data}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n+nb}{list}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{data}\PY{p}{]}\PY{p}{)}
+\PY{n}{scores\PYZus{}svm\PYZus{}1} \PY{o}{=} \PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{svm}\PY{o}{.}\PY{n}{predict\PYZus{}scores}\PY{p}{(}\PY{n}{to\PYZus{}format\PYZus{}arr}\PY{p}{(}\PY{n}{testing\PYZus{}set1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Num. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\PY{n}{scores\PYZus{}svm\PYZus{}2} \PY{o}{=} \PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{svm}\PY{o}{.}\PY{n}{predict\PYZus{}scores}\PY{p}{(}\PY{n}{to\PYZus{}format\PYZus{}arr}\PY{p}{(}\PY{n}{testing\PYZus{}set2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Num. features}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{result-on-two-dataset}{%
+\subsection{Result on two dataset}\label{result-on-two-dataset}}
+
+Here all results of three models in both two experiments were compared.
+Above all, The results show that all three models detected splice signal
+in a way. Their \(auROC\) are very close to 1, which means they can
+perfectly classify donor sites from Pseudo sites. But in contrast, Both
+auROC and auPRC showed that SVM has a higher accuracy than the other
+(Fig. 1). Moreover, SVM are more robust when trained and tested on
+unbalanced dataset than BN and WAM. The \(auPRC\) can show performance
+decline significantly while \(auROC\) cannot when models were trained on
+unbalanced data.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{trange} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{arange}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{40}\PY{p}{,} \PY{l+m+mi}{40}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{)}
+\PY{n}{evaltr\PYZus{}1} \PY{o}{=} \PY{n}{Evaluator}\PY{p}{(}\PY{n}{labels}\PY{o}{=}\PY{n}{testing\PYZus{}set1}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IsDonor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{wam\PYZus{}scores}\PY{o}{=}\PY{n}{scores\PYZus{}wam\PYZus{}1}\PY{p}{,} 
+                  \PY{n}{bn\PYZus{}scores}\PY{o}{=}\PY{n}{scores\PYZus{}bn\PYZus{}1}\PY{p}{,} \PY{n}{svm\PYZus{}scores}\PY{o}{=}\PY{n}{scores\PYZus{}svm\PYZus{}1}\PY{p}{)}
+\PY{n}{evaltr\PYZus{}2} \PY{o}{=} \PY{n}{Evaluator}\PY{p}{(}\PY{n}{labels}\PY{o}{=}\PY{n}{testing\PYZus{}set2}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{IsDonor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{wam\PYZus{}scores}\PY{o}{=}\PY{n}{scores\PYZus{}wam\PYZus{}2}\PY{p}{,} 
+                  \PY{n}{bn\PYZus{}scores}\PY{o}{=}\PY{n}{scores\PYZus{}bn\PYZus{}2}\PY{p}{,} \PY{n}{svm\PYZus{}scores}\PY{o}{=}\PY{n}{scores\PYZus{}svm\PYZus{}2}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{evaltr\PYZus{}1}\PY{o}{.}\PY{n}{Save\PYZus{}figs}\PY{p}{(}\PY{n}{trange}\PY{p}{,} \PY{n}{suffix}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{evaltr\PYZus{}2}\PY{o}{.}\PY{n}{Save\PYZus{}figs}\PY{p}{(}\PY{n}{trange}\PY{p}{,} \PY{n}{suffix}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{evaltr\PYZus{}1}\PY{o}{.}\PY{n}{Cal\PYZus{}metrics}\PY{p}{(}\PY{n}{trange}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Figures/Table\PYZus{}S2.a.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{evaltr\PYZus{}2}\PY{o}{.}\PY{n}{Cal\PYZus{}metrics}\PY{p}{(}\PY{n}{trange}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}csv}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Figures/Table\PYZus{}S2.b.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{index}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{fs} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Figures/F1\PYZus{}t\PYZus{}1.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Figures/ROC\PYZus{}1.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Figures/PRC\PYZus{}1.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+      \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Figures/F1\PYZus{}t\PYZus{}2.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Figures/ROC\PYZus{}2.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Figures/PRC\PYZus{}2.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{figs} \PY{o}{=} \PY{p}{[}\PY{n}{pli}\PY{o}{.}\PY{n}{imread}\PY{p}{(}\PY{n}{i}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{fs}\PY{p}{]}
+\PY{n}{plt}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{left}\PY{o}{=}\PY{l+m+mf}{0.0}\PY{p}{,}\PY{n}{bottom}\PY{o}{=}\PY{l+m+mf}{0.0}\PY{p}{,}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{1.2}\PY{p}{,}\PY{n}{right}\PY{o}{=}\PY{l+m+mf}{1.2}\PY{p}{)}
+\PY{n}{figure}\PY{p}{,} \PY{p}{(}\PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{)}\PY{p}{,} \PY{p}{(}\PY{n}{ax3}\PY{p}{,} \PY{n}{ax4}\PY{p}{)}\PY{p}{)} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,}\PY{l+m+mi}{12}\PY{p}{)}\PY{p}{)}
+\PY{p}{[}\PY{n}{no\PYZus{}box}\PY{p}{(}\PY{n}{ax}\PY{p}{)} \PY{k}{for} \PY{n}{ax} \PY{o+ow}{in} \PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{,} \PY{n}{ax3}\PY{p}{,} \PY{n}{ax4}\PY{p}{)}\PY{p}{]}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{figs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{;} \PY{n}{ax2}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{figs}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{]}\PY{p}{)}\PY{p}{;} \PY{n}{ax3}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{figs}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{)}\PY{p}{;} \PY{n}{ax4}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{figs}\PY{p}{[}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+        \begin{figure}
+    	\begin{center}
+    		\adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_33_1.png}
+    		\label{mylabel}
+    		\caption{Overall comparison for models on balanced data (left) and unbalanced data (right).}
+    	\end{center}
+    \end{figure}
+
+    \hypertarget{model-selection}{%
+\subsection{Model selection}\label{model-selection}}
+
+In the experiments, their performances are slightly different since
+their strategies of detecting splice signals are different. But
+obviously, there is a situation that unbalanced data affects, compare to
+the first experiment, their metrics in the second experiment has
+significantly declined, especially \(auPRC\) for WAM and BN.
+
+    \hypertarget{weighted-array-model}{%
+\subsubsection{Weighted Array Model}\label{weighted-array-model}}
+
+WAM shows decent accuracy in the experiments considering its low cost of
+computating power. It has the ability to discover low level features of
+splice site (Fig. 2), but higher level feature detection remains
+imposible. As Weighted array model calculate adjacent bases frequencies
+at each position, it can only detect common adjacent bases near the
+splice sites. In both two experiments, WAM has detected the information
+well (see Fig. 1). The result shows that GG, GT, TA bases are more
+frequent near splice site. This agrees with some of the facts that have
+been found {[}28{]}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{weights\PYZus{}diff} \PY{o}{=} \PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{positive\PYZus{}weights} \PY{o}{\PYZhy{}} \PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{negative\PYZus{}weights}
+\PY{n}{plt}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{left}\PY{o}{=}\PY{l+m+mf}{0.0}\PY{p}{,}\PY{n}{bottom}\PY{o}{=}\PY{l+m+mf}{0.0}\PY{p}{,}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{1.2}\PY{p}{,}\PY{n}{right}\PY{o}{=}\PY{l+m+mf}{1.2}\PY{p}{)}
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax1} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{9}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{120}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{p}{(}\PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{positive\PYZus{}weights} \PY{o}{\PYZhy{}} \PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{negative\PYZus{}weights}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} 
+                 \PY{n}{vmin}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{vmax}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax1}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{YlGnBu}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{figure}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_36_1.png}
+    \label{mylabel}
+    \caption{Visualization of the difference in $W$ of WAM  ($W_{donor,2}-W_{pseudo,2}$)\protect\footnotemark.}
+    \end{center}
+	\end{figure}
+\footnotetext{Experiment 2.}
+    { \hspace*{\fill} \\}
+    
+    The result also shows that there is a performance decline in experiment
+2 (Fig. 1). The main reason of this is that donor information contained
+in second training dataset is much less than first dataset (Fig. 1 \&
+3). In other words, the frequency of some adjacent bases within each
+position near the donor sites are lower in the unbalanced dataset (Fig.
+3). The model cannot learn weights, which were informatively
+comprehensive enough, to precisely classify donor site in that situation
+(Fig. 1). Thus, To build a reliable WAM model, the information contained
+in true splice sites and pseudo sites need to be very comprehensive.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax2} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{9}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{120}\PY{p}{)}
+\PY{n}{ax} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{p}{(}\PY{p}{(}\PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{positive\PYZus{}weights} \PY{o}{\PYZhy{}} \PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{negative\PYZus{}weights}\PY{p}{)} \PY{o}{\PYZhy{}} 
+                  \PY{p}{(}\PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{positive\PYZus{}weights} \PY{o}{\PYZhy{}} \PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{wam}\PY{o}{.}\PY{n}{negative\PYZus{}weights}\PY{p}{)}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} 
+                 \PY{n}{vmin}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{vmax}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax2}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{YlGnBu}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+	\begin{figure}
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_38_0.png}
+    \label{mylabel}
+    \caption{Visualization of the difference in $D_{exp}$ across experiments ($D_1-D_2$)\protect\footnotemark.}
+    \end{center}
+	\end{figure}
+    \footnotetext{$D_{exp}=W_{donor,exp}-W_{pseudo,exp}$}
+        
+    \hypertarget{bayesian-network}{%
+\subsubsection{Bayesian Network}\label{bayesian-network}}
+
+Bayesian network uses \(\chi^2 -test\) {[}21{]} and conditional
+independent test, to build the dependency graph for each position near
+the splice site and also donor potential. In both two experiments, BN
+has detected the conditional dependence between positions and donor
+potential (Fig. 4).
+
+But there are some imperfections. First, directions of edges in the
+graph may learn wrong due to separated learning algorithm (Fig. 4).
+During structure learning, if there is an edge
+\(N_0 \rightarrow N_{-1}\), there will not be an edge
+\(N_0 \leftarrow N_{-1}\) because of its DAG structure. But on
+choromosome, it is common that adjacent positions affects each other.
+One way to address this limitation is to combine the structure learning
+and the parameter learning. When there are mutual influences, just
+discard edge with less influence. Or when detecting splice signals, I
+just wanna keep \(N_{0}\leftarrow N_{-1}\) cause \(N_0\) is the site.
+Second, BN's learning algorithm utilizes \(\chi^2-test\) and conditional
+independent test and so more sensitive to unbalanced data (Fig. 4)
+{[}14{]}. So there is a significant performance decline for BN compare
+to SVM (Fig. 1). Furthermore, BN is susceptible to not only information
+contained in dataset, but also distribution of data compares with WAM.
+This would explain the fact that performance declines in experiment 2.
+
+Finally, classical integrated BN is in a position to detect not only
+dependence between positions, but also dependences between positions and
+donor potential, because it learns parameters from all data, donor sites
+and pseudo sites. While expanded Bayesian networks {[}22{]} can just
+detect dependence between positions, because it learns positive and
+negative BNs' parameters using positive and negative data respectively.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{fig}\PY{p}{,} \PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{)} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{120}\PY{p}{)}
+\PY{n}{G1} \PY{o}{=} \PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{bn}\PY{o}{.}\PY{n}{networks}\PY{p}{;} \PY{n}{bicolors} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deepskyblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{salmon}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{nodesize} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n+nb}{float}\PY{p}{(}\PY{n}{G1}\PY{o}{.}\PY{n}{degree}\PY{p}{(}\PY{n}{v}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{G1}\PY{p}{]}\PY{p}{)}
+\PY{n}{nodecolor} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{bicolors}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{L}\PY{l+s+s1}{\PYZsq{}} \PY{o}{==} \PY{n}{i}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{G1}\PY{p}{]}\PY{p}{)}
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw}\PY{p}{(}\PY{n}{G1}\PY{p}{,} \PY{n}{with\PYZus{}labels}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{textsize}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{,} \PY{n}{node\PYZus{}color}\PY{o}{=}\PY{n}{nodecolor}\PY{p}{,}
+        \PY{n}{pos}\PY{o}{=}\PY{n}{nx}\PY{o}{.}\PY{n}{nx\PYZus{}agraph}\PY{o}{.}\PY{n}{graphviz\PYZus{}layout}\PY{p}{(}\PY{n}{G1}\PY{p}{,} \PY{n}{prog}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neato}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax1}\PY{p}{,}               
+        \PY{n}{node\PYZus{}size}\PY{o}{=}\PY{n}{nodesize}\PY{o}{*}\PY{l+m+mi}{150}\PY{p}{)}
+\PY{n}{G2} \PY{o}{=} \PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{bn}\PY{o}{.}\PY{n}{networks}\PY{p}{;} \PY{n}{bicolors} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{deepskyblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{salmon}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{nodesize} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n+nb}{float}\PY{p}{(}\PY{n}{G2}\PY{o}{.}\PY{n}{degree}\PY{p}{(}\PY{n}{v}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{1}\PY{p}{)} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{G2}\PY{p}{]}\PY{p}{)}
+\PY{n}{nodecolor} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{bicolors}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{L}\PY{l+s+s1}{\PYZsq{}} \PY{o}{==} \PY{n}{i}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{G2}\PY{p}{]}\PY{p}{)}
+\PY{n}{nx}\PY{o}{.}\PY{n}{draw}\PY{p}{(}\PY{n}{G2}\PY{p}{,} \PY{n}{with\PYZus{}labels}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{textsize}\PY{o}{=}\PY{l+m+mi}{10000}\PY{p}{,} \PY{n}{node\PYZus{}color}\PY{o}{=}\PY{n}{nodecolor}\PY{p}{,}
+        \PY{n}{pos}\PY{o}{=}\PY{n}{nx}\PY{o}{.}\PY{n}{nx\PYZus{}agraph}\PY{o}{.}\PY{n}{graphviz\PYZus{}layout}\PY{p}{(}\PY{n}{G2}\PY{p}{,} \PY{n}{prog}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neato}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{,} \PY{n}{ax}\PY{o}{=}\PY{n}{ax2}\PY{p}{,}
+        \PY{n}{node\PYZus{}size}\PY{o}{=}\PY{n}{nodesize}\PY{o}{*}\PY{l+m+mi}{150}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+	\begin{figure}
+	\begin{center}
+		\adjustimage{max size={0.6\linewidth}{0.9\paperheight}}{output_40_0.png}
+	\end{center}
+	\caption{Graph for Bayesian network. $G_1$ (left) and $G_2$ (right).}
+	\end{figure}
+    
+    \hypertarget{support-vector-machine}{%
+\subsubsection{Support Vector Machine}\label{support-vector-machine}}
+
+Support Vector machines have performed best and nearly the same in the
+experiments. The result shows that SVM has the potential to take care of
+unbalanced data. There are several benefits using SVM.
+
+First, SVM was appropriate to provide for classification. It has the
+highest accuracy amoung all three models used in the experiments. The
+margin maximal and kernel trick gives it ability to classify very
+complex data. One more important feature of SVM is that only support
+vectors are important in order to classification. The rest can be
+ignored. This can easily reduce the computing power needed.
+
+Second, when dealing with unbalanced data, the number of support vectors
+can be slightly the same for each class (Table S1). This makes its
+accuracy slightly the save as first experiment (Fig. 1). It handled the
+unbalanced data elegantly.
+
+Third. There are several mature optimization algorithms with low time
+complexity and sophisticated software tools {[}11,23,25{]}. They were
+nicely implemented, make SVM's training and prediction fast. However,
+Visualization of the hyper-plane and high-dimensional space is
+impossible. Although its accuracy is excellent. It still likes a black
+box. We cannot know which feature are the most important or what kind of
+the signals were detected.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(} \PY{p}{(}\PY{n}{model\PYZus{}1}\PY{o}{.}\PY{n}{svm}\PY{o}{.}\PY{n}{n\PYZus{}support\PYZus{}}\PY{p}{,} \PY{n}{model\PYZus{}2}\PY{o}{.}\PY{n}{svm}\PY{o}{.}\PY{n}{n\PYZus{}support\PYZus{}}\PY{p}{)}\PY{p}{,} \PY{n}{columns}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Donor}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Pseudo}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{df}\PY{o}{.}\PY{n}{index} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SVM 1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{SVM 2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{;}\PY{n+nb}{print}\PY{p}{(}\PY{n}{df}\PY{o}{.}\PY{n}{to\PYZus{}latex}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+%\appendix      
+\setcounter{table}{0}   %从零开始编号
+\renewcommand{\thetable}{S\arabic{table}}
+
+\begin{table}[h]
+\centering
+	\caption{Number of support vectors in SVM}
+	\begin{threeparttable}
+\begin{tabular}{lcc}
+	\toprule
+	{} &  Donor &  Pseudo \\
+	\midrule
+	SVM 1 &    350 &     352 \\
+	SVM 2 &    543 &     509 \\
+	\bottomrule
+\end{tabular}
+\end{threeparttable}
+\end{table}
+
+    \hypertarget{metrics}{%
+\subsection{Metrics}\label{metrics}}
+
+In the experiments, we used
+\(TPR, FPR, Sn, Sp, Rc, Pr, F1-score, auROC, auPRC\) metrics to evaluate
+performances of models. The result shows that \(auPRC\) is more
+sensitive to unbalanced data than \(auROC\) (Fig. 1).
+
+\hypertarget{simple-mathamatical-formulation}{%
+\paragraph{Simple mathamatical
+formulation:}\label{simple-mathamatical-formulation}}
+
+Here we note \(D=Num_p(TP,FN)-Num_n(FP,TN)\) as the difference between
+two classes. \(TPR(Num_p)\), \(Sn(Num_p)\) and \(Rc(Num_p)\) are
+independent with \(Num_n\), and \(FPR(Num_n), Sp(Num_n)\) are
+independent on \(Num_p\), so they are independent with \(D\). \(Pr\) is
+the only metric that is dependent on \(D\). So
+\(auPRC=\sum_{i=1}^{N-1}\frac{(Rc_{i+1} - Rc_i)(Pr_i+Pr_{i+1})}{2}\) can
+enlarge the difference of performance when comparing different models on
+unbalanced data.
+
+When comparing models on an unbalanced dataset, we should not miss
+\(Pr\) and \(auPRC\). Besides, \(F1-score=\frac{2Pr Rc}{Pr+Rc}\) also
+has ability to enlarge this kind of difference.
+
+    \hypertarget{threshold-selection}{%
+\subsection{Threshold selection}\label{threshold-selection}}
+
+\(F1-score\) {[}24{]} is another important metric. Since Pr and Rc are
+paradoxical sometimes, we cannot have highest \(Rc\) and \(Pr\) at the
+same time. When selection thresholds, we use \(F1-score\) instead.
+
+The result shows that all \(F1-score\) reach its peak at \(t\approx 0\).
+So \(t=0\) is a suitable threshold for 3 models. For other metrics
+involved in threshold selection, see Table
+\href{https://github.com/AdeBC/GSSR/blob/master/Figures/Table_S2.a.csv}{S2.a}
+and
+\href{https://github.com/AdeBC/GSSR/blob/master/Figures/Table_S2.b.csv}{S2.b}.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+\PY{n}{fs} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Figures/F1\PYZus{}t\PYZus{}1.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{../Figures/F1\PYZus{}t\PYZus{}2.png}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{n}{figs} \PY{o}{=} \PY{p}{[}\PY{n}{pli}\PY{o}{.}\PY{n}{imread}\PY{p}{(}\PY{n}{i}\PY{p}{)} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n}{fs}\PY{p}{]}
+\PY{n}{figure}\PY{p}{,} \PY{p}{(}\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{)} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{dpi}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,}\PY{l+m+mi}{12}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{left}\PY{o}{=}\PY{l+m+mf}{0.0}\PY{p}{,}\PY{n}{bottom}\PY{o}{=}\PY{l+m+mf}{0.0}\PY{p}{,}\PY{n}{top}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,}\PY{n}{right}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{;} 
+\PY{n}{no\PYZus{}box}\PY{p}{(}\PY{n}{ax1}\PY{p}{)}\PY{p}{;} \PY{n}{ax1}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{figs}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{;}\PY{n}{no\PYZus{}box}\PY{p}{(}\PY{n}{ax2}\PY{p}{)}\PY{p}{;} \PY{n}{ax2}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{figs}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{;}\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+	
+	\begin{figure}
+    \begin{center}
+    \adjustimage{max size={0.8\linewidth}{0.9\paperheight}}{output_45_0.png}
+    \caption{Visualization for F1-score \& Threshold across experiments $exp_1$ (top) and $exp_2$ (bottom).}
+    \end{center}
+	\end{figure}
+    
+    \hypertarget{conclusion-and-prospect}{%
+\section{Conclusion and Prospect}\label{conclusion-and-prospect}}
+
+    Some facts have been found after these attempts. First, \textbf{Weighted
+Array Model} is good at detecting dependence between adjacent positions
+and costs lowest computing power. Second, \textbf{Bayesian network}
+still suffers from learning algorithm. PC-Contraint based algorithm and
+MMHC algorithm still not perfect and are so time consuming. It takes me
+10 hours to train a Bayesian network. Third, \textbf{Support Vector
+Machine} is very accurate and fast when dealing with small dataset.
+Finally, when dataset is unbalanced, A very wise choice would be
+selecting not only \(auROC\) but also \(auPRC\) as metrics to evaluate
+models. Or make dataset balanced before training, some methods have
+been proposed to complete this.
+
+The Pros and Cons of models are arranged below.
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+\begin{minipage}[b]{0.35\columnwidth}\raggedright
+Model\strut
+\end{minipage} & \begin{minipage}[b]{0.28\columnwidth}\raggedright
+Pros\strut
+\end{minipage} & \begin{minipage}[b]{0.28\columnwidth}\raggedright
+Cons\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.35\columnwidth}\raggedright
+\textbf{WAM}\strut
+\end{minipage} & \begin{minipage}[t]{0.28\columnwidth}\raggedright
+Low cost of computing power, Splice signal detection, Easy to
+visualize\strut
+\end{minipage} & \begin{minipage}[t]{0.28\columnwidth}\raggedright
+Accuracy not perfect\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.35\columnwidth}\raggedright
+\textbf{BN}\strut
+\end{minipage} & \begin{minipage}[t]{0.28\columnwidth}\raggedright
+Easy to visualize, Causual relationship inference, Splice signal
+detection\strut
+\end{minipage} & \begin{minipage}[t]{0.28\columnwidth}\raggedright
+Immature learning algorithms, accuracy still not perfect\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.35\columnwidth}\raggedright
+\textbf{SVM}\strut
+\end{minipage} & \begin{minipage}[t]{0.28\columnwidth}\raggedright
+Extreamely high accuracy, Fast and mature learning algotithm
+{[}23,25{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.28\columnwidth}\raggedright
+Cannot visualize, Black box\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+    \hypertarget{limitations-and-prospect}{%
+\subsection{Limitations and Prospect}\label{limitations-and-prospect}}
+
+There are still some limitations about this work. First, the information
+contained in datasets are different, this may cause a little accuracy
+decline. Second, the dataset used in the experiments are still too
+small, only \(5000\) samples are used to training models.
+
+Corresponding with limitations, there are two experiments need to be
+done in the future. First, make information-equal datasets to repeat
+the experiments. Second, experiments on larger datasets need to be done
+as the proportion of donor sites is near \(10^{-3}\) or even smaller.
+
+    \hypertarget{availability}{%
+\section{Availability}\label{availability}}
+
+Dataset was provided by Prof.~Zhou of Huazhong University of Science
+and Technology. Source code of this project are hosted on
+\href{https://github.com/AdeBC/GSSR}{Github}. Besides, to encourage
+others to reproduce this project, all source code involved in this
+report was remained. Anyone can configure dependence environment can
+easily reproduce it.
+
+Making research projects more reproducible is highly recommended here.
+
+    \hypertarget{acknowledgements}{%
+\section{Acknowledgements}\label{acknowledgements}}
+
+First of all, I would like to extend my sincere gratitude to Professor
+Yanhong Zhou, for his valuable knowledge and experience in bioinformatic
+data mining that I've gained. I am deeply grateful of his patient
+teaching during the COVID-19 epidemic.
+
+Second, I am also deeply indebted to all the other researchers and geeks
+in Bioinformatics and Data Mining for their great works and wonderful
+programming experiences and skills shared on the web. I cannot finish
+this project without them.
+
+Finally, Special thanks should go to my parents, girlfriend and also
+other friends, for their continuous support and encouragement.
+
+    \hypertarget{references}{%
+\section{References}\label{references}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  M.O. Zhang, T.G. Marr, A weight array method for splicing signal
+  analysis, Bioinformatics, Volume 9, Issue 5, October 1993, Pages
+  499--509, https://doi.org/10.1093/bioinformatics/9.5.499
+\item
+  Sinha, R., Hiller, M., Pudimat, R. et al.~Improved identification of
+  conserved cassette exons using Bayesian networks. BMC Bioinformatics
+  9, 477 (2008). https://doi.org/10.1186/1471-2105-9-477
+\item
+  Pearl J. Bayesian netwcrks: A model cf self-activated memory for
+  evidential reasoning{[}C{]}//Proceedings of the 7th Conference of the
+  Cognitive Science Society, University of California, Irvine, CA, USA.
+  1985: 15-17.
+\item
+  Sonnenburg, S., Schweikert, G., Philips, P. et al.~Accurate splice
+  site prediction using support vector machines. BMC Bioinformatics 8,
+  S7 (2007). https://doi.org/10.1186/1471-2105-8-S10-S7
+\item
+  Cortes, C., Vapnik, V. Support-vector networks. Mach Learn 20,
+  273--297 (1995). https://doi.org/10.1007/BF00994018
+\item
+  Boyd K, Eng K H, Page C D. Area under the precision-recall curve:
+  point estimates and confidence intervals{[}C{]}//Joint European
+  conference on machine learning and knowledge discovery in databases.
+  Springer, Berlin, Heidelberg, 2013: 451-466.
+\item
+  Gilbert W. Why genes in pieces?. \emph{Nature}. 1978;271(5645):501.
+  doi:10.1038/271501a0
+\item
+  deeplizard. One-hot Encoding explained. YouTube. 2018-01-12
+  {[}2019-09-08{]}
+\item
+  Nomenclature for Incompletely Specified Bases in Nucleic Acid
+  Sequences, NC-IUB, 1984.
+\item
+  Oliphant T E. Python for scientific computing{[}J{]}. Computing in
+  Science \& Engineering, 2007, 9(3): 10-20.
+\item
+  Pedregosa F, Varoquaux G, Gramfort A, et al.~Scikit-learn: Machine
+  learning in Python{[}J{]}. the Journal of machine Learning research,
+  2011, 12: 2825-2830.
+\item
+  Ankan A, Panda A. pgmpy: Probabilistic graphical models using
+  python{[}C{]}//Proceedings of the 14th Python in Science Conference
+  (SCIPY 2015). 2015.
+\item
+  C.D. Manning, P. Raghavan and M. Schütze (2008). \emph{Introduction to
+  Information Retrieval}. Cambridge University Press, p.~260.
+\item
+  P. Spirtes, C. Glymour, and R. Scheines. Causation, prediction, and
+  search. Springer-Verlag, New York, 1993.
+\item
+  Vert J P, Tsuda K, Schölkopf B. A primer on kernel methods{[}J{]}.
+  Kernel methods in computational biology, 2004, 47: 35-70.
+\item
+  Stone M. Cross‐validatory choice and assessment of statistical
+  predictions{[}J{]}. Journal of the Royal Statistical Society: Series B
+  (Methodological), 1974, 36(2): 111-133.
+\item
+  Fawcett, Tom (2006); \emph{An introduction to ROC analysis}, Pattern
+  Recognition Letters, 27, 861--874.
+\item
+  Boyd K, Eng K H, Page C D. Area under the precision-recall curve:
+  point estimates and confidence intervals{[}C{]}//Joint European
+  conference on machine learning and knowledge discovery in databases.
+  Springer, Berlin, Heidelberg, 2013: 451-466.
+\item
+  Hanley JA, McNeil BJ. A method of comparing the areas under receiver
+  operating characteristic curves derived from the same cases.
+  \emph{Radiology}. 1983;148(3):839-843.
+  doi:10.1148/radiology.148.3.6878708
+\item
+  Ossendrijver M. Ancient Babylonian astronomers calculated Jupiter's
+  position from the area under a time-velocity graph. \emph{Science}.
+  2016;351(6272):482-484. doi:10.1126/science.aad8085
+\item
+  McHugh M L. The chi-square test of independence{[}J{]}. Biochemia
+  medica: Biochemia medica, 2013, 23(2): 143-149.
+\item
+  Chen T M, Lu C C, Li W H. Prediction of splice sites with dependency
+  graphs and their expanded bayesian networks{[}J{]}. Bioinformatics,
+  2005, 21(4): 471-482.
+\item
+  Platt J. Sequential minimal optimization: A fast algorithm for
+  training support vector machines{[}J{]}. 1998.
+\item
+  Sasaki, Yutaka. (2007). The truth of the F-measure. Teach Tutor Mater.
+\item
+  Chang C C, Lin C J. LIBSVM: A library for support vector
+  machines{[}J{]}. ACM transactions on intelligent systems and
+  technology (TIST), 2011, 2(3): 1-27.
+\item
+  J. D. Hunter, ``Matplotlib: A 2D Graphics Environment'', Computing in
+  Science \& Engineering, vol.~9, no. 3, pp.~90-95, 2007
+\item
+  Waskom, M. et al., 2017. \emph{mwaskom/seaborn: v0.8.1 (September
+  2017)}, Zenodo. Available at: https://doi.org/10.5281/zenodo.883859.
+\item
+  Wikipedia contributors. (2020, June 17). RNA splicing. In
+  \emph{Wikipedia, The Free Encyclopedia}. Retrieved 01:09, June 20,
+  2020, from
+  https://en.wikipedia.org/w/index.php?title=RNA\_splicing\&oldid=962973627
+\item
+  Compeau P, Pevzner P A. Bioinformatics Algorithms: An Active Learning
+  Approach. La Jolla{[}M{]}. CA: Active Learning Publishers, 2018.
+\item
+  Li H, Cabeli V, Sella N, et al.~Constraint-based causal structure
+  learning with consistent separating sets{[}C{]}//Advances in Neural
+  Information Processing Systems. 2019: 14257-14266.
+\end{enumerate}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\},fontsize=\small]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
