@@ -1,5 +1,7 @@
 # 真核基因剪接位点预测
 
+Still working in progress!
+
 ## Abstract
 
 - 真核基因剪接位点预测的WAM模型编程实现；
