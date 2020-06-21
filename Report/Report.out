@@ -6,7 +6,7 @@
 \BOOKMARK [2][-]{subsection.3.1}{Environment}{section.3}% 6
 \BOOKMARK [2][-]{subsection.3.2}{Datasets}{section.3}% 7
 \BOOKMARK [2][-]{subsection.3.3}{Feature\040Extraction\040and\040Encoding}{section.3}% 8
-\BOOKMARK [2][-]{subsection.3.4}{Model\040Implements\040and\040Test\040core}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.4}{Model\040Implements\040and\040Test\040score}{section.3}% 9
 \BOOKMARK [2][-]{subsection.3.5}{Stratagies\040for\040WAM\040to\040perform\040recognition}{section.3}% 10
 \BOOKMARK [2][-]{subsection.3.6}{Stratagies\040for\040BN\040to\040learn\040structures\040and\040parameters\040from\040data}{section.3}% 11
 \BOOKMARK [2][-]{subsection.3.7}{Strategies\040for\040BN\040to\040detect\040splice\040signal}{section.3}% 12
@@ -17,7 +17,7 @@
 \BOOKMARK [1][-]{section.4}{Results\040and\040Discussion}{}% 17
 \BOOKMARK [2][-]{subsection.4.1}{Model\040Training}{section.4}% 18
 \BOOKMARK [2][-]{subsection.4.2}{Test\040scores\040Calculation}{section.4}% 19
-\BOOKMARK [2][-]{subsection.4.3}{Result\040on\040two\040dataset}{section.4}% 20
+\BOOKMARK [2][-]{subsection.4.3}{Result\040on\040two\040datasets}{section.4}% 20
 \BOOKMARK [2][-]{subsection.4.4}{Model\040selection}{section.4}% 21
 \BOOKMARK [3][-]{subsubsection.4.4.1}{Weighted\040Array\040Model}{subsection.4.4}% 22
 \BOOKMARK [3][-]{subsubsection.4.4.2}{Bayesian\040Network}{subsection.4.4}% 23

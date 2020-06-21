@@ -544,16 +544,16 @@ extracted.
 
 When encoding sequence features, one-hot encoder {[}8{]} was introduced.
 And considering simplisity of the experiments, samples with
-\(base_{ambiguous} \in \{W,M,S,K,R,Y,B,D,H,V,N,Z\}\) {[}9{]} were
+\(base_{ambiguous} \in \{w,m,s,k,r,y,b,d,h,v,n,z\}\) {[}9{]} were
 discarded. Next, a One-hot encoder are used to encode sequence to a
-numeric feature vector. For instance, sequence \(A...T\) was encoded as
+numeric feature vector. For instance, sequence \(a...t\) was encoded as
 \([1,0,0,0...0,0,0,1]\). See
 \href{https://github.com/AdeBC/GSSR/blob/master/Source/Preprocessing.ipynb}{Preprocessing.ipynb}
 for details.
 
     \hypertarget{model-implements-and-test-core}{%
 \subsection{Model Implements and Test
-core}\label{model-implements-and-test-core}}
+score}\label{model-implements-and-test-score}}
 
 The 3 models are mainly implemented using Python {[}10{]}. Besides, the
 Bayesian network model and Support vector machine was implemented based
@@ -569,7 +569,7 @@ probabilities each sample belonging to each class, the
 \texttt{predict\_classes} are used for predicting the class to which
 each sample belongs, this is done by comparing the \(S(X)\) and given
 threshold \(T\). Most importantly, the \(S(X)\) is calculated by:
-\[S_m(X) = ln(\frac{P_m^+ (X)}{P_m^- {X}}), m\in\{wam, bn, svm\} \tag{1}\]
+\[S_m(X) = ln(\frac{P_m^+ (X)}{P_m^- (X)}), m\in\{wam, bn, svm\} \tag{1}\]
 
     \hypertarget{stratagies-for-wam-to-perform-recognition}{%
 \subsection{Stratagies for WAM to perform
@@ -651,7 +651,9 @@ other parameters are default values (Scikit-learn version 0.23.1). See
 details in
 \href{https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html\#sklearn.svm.SVC}{Sklearn
 documentation}.
-\[\tag{4}K(x_i, x_j) = exp(-\gamma||x_i - x_j||^2), \gamma > 0\]
+
+\[K(x_i, x_j) = exp(-\gamma||x_i - x_j||^2), \gamma > 0\ \tag{4}\]
+
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{3}{\boxspacing}
@@ -786,7 +788,7 @@ The test scores for models were calculated here.
 \end{tcolorbox}
 
     \hypertarget{result-on-two-dataset}{%
-\subsection{Result on two dataset}\label{result-on-two-dataset}}
+\subsection{Result on two datasets}\label{result-on-two-datasets}}
 
 Here all results of three models in both two experiments were compared.
 Above all, The results show that all three models detected splice signal
@@ -1021,7 +1023,7 @@ the signals were detected.
 \centering
 	\caption{Number of support vectors in SVM}
 	\begin{threeparttable}
-\begin{tabular}{lcc}
+	\begin{tabular}{lcc}
 	\toprule
 	{} &  Donor &  Pseudo \\
 	\midrule
