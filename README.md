@@ -12,7 +12,7 @@ As molecular biology and information technology advances, machine learning techn
 
 ## Report
 
-[A Computing Data Science Perspective on Gene Splice Site Identification](Report/A Computing Data Science Perspective on Gene Splice Site Identification.pdf))
+[A Computing Data Science Perspective on Gene Splice Site Identification](Report/A Computing Data Science Perspective on Gene Splice Site Identification.pdf)
 
 ## Requirements
 
